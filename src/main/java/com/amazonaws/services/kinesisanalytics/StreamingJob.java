@@ -29,14 +29,7 @@ public class StreamingJob {
 
         //Leverage JsonNodeDeserializationSchema to convert incoming JSON to generic ObjectNode
         DataStream<ObjectNode> orderStreamObject =  env.addSource(new FlinkKinesisConsumer<>("flinkjoin-order", new JsonNodeDeserializationSchema(), inputProperties));
-        DataStream<ObjectNode> exchangeRateStreamObject =  env
-                .addSource(new FlinkKinesisConsumer<>("flinkjoin-exchangerate", new JsonNodeDeserializationSchema(), inputProperties))
-                .assignTimestampsAndWatermarks(new AscendingTimestampExtractor<ObjectNode>() {
-                    @Override
-                    public long extractAscendingTimestamp(ObjectNode element) {
-                            return 1234;
-                        }});
-
+        DataStream<ObjectNode> exchangeRateStreamObject =  env.addSource(new FlinkKinesisConsumer<>("flinkjoin-exchangerate", new JsonNodeDeserializationSchema(), inputProperties))
 
         //Map incomming data from the generic Object Node to a POJO object
         //Set if TimeCharacteristic = "EventTime" to determine how the the Time Attribute rowtime will be determined from the incoming data
