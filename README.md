@@ -70,7 +70,7 @@ Leverage the Kinesis Data Generator (https://awslabs.github.io/amazon-kinesis-da
 ```
 
 ### Download and package the application
-* From your GitHub root folder, execute the following command to download the Apache Flink source code. 
+* From your GitHub root folder, execute the following command to download the Apache Flink source code for this sample project. 
 ```
 git clone https://github.com/aws-samples/amazon-kinesis-data-analytics-flinktableapi
 ```
