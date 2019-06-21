@@ -28,9 +28,18 @@ public class StreamingJob {
         inputProperties.setProperty(ConsumerConfigConstants.STREAM_INITIAL_POSITION, "LATEST");
 
         //Leverage JsonNodeDeserializationSchema to convert incoming JSON to generic ObjectNode
-        DataStream<ObjectNode> orderStreamObject =  env.addSource(new FlinkKinesisConsumer<>("flinkjoin-order", new JsonNodeDeserializationSchema(), inputProperties));
-        DataStream<ObjectNode> exchangeRateStreamObject =  env.addSource(new FlinkKinesisConsumer<>("flinkjoin-exchangerate", new JsonNodeDeserializationSchema(), inputProperties))
+        DataStream<ObjectNode> orderStreamObject =  env.addSource(
+                new FlinkKinesisConsumer<>(
+                        "flinkjoin-order", 
+                        new JsonNodeDeserializationSchema(), 
+                        inputProperties));
 
+        DataStream<ObjectNode> exchangeRateStreamObject =  env.addSource(
+                new FlinkKinesisConsumer<>(
+                        "flinkjoin-exchangerate", 
+                        new JsonNodeDeserializationSchema(), 
+                        inputProperties));
+        
         //Map incomming data from the generic Object Node to a POJO object
         //Set if TimeCharacteristic = "EventTime" to determine how the the Time Attribute rowtime will be determined from the incoming data
         DataStream<Order> orderStream = orderStreamObject
