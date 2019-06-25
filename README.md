@@ -168,7 +168,8 @@ DataStream<ExchangeRate> exchangeRateStream = exchangeRateStreamObject
             return exchangeRate;
         });
 ```
-3. Execute the assignTimestampAndWatermarks function to assign the *Time Attribute* field (rowtime) to a field within the object.
+3. Execute the assignTimestampAndWatermarks function to assign the *Time Attribute* field (rowtime) to a field within the object.  
+
 ```
 DataStream<Order> orderStreamWithTime = orderStream
         .assignTimestampsAndWatermarks(new AscendingTimestampExtractor<Order>() {
@@ -213,21 +214,24 @@ tableEnv.registerFunction("TimestampToString", new TimestampToString());
 ```
 
 ### Querying the Data
-Define a SQL query for the resultSet table.  Join *Orders* to *ExchangeRates* based on the currency.  To ensure the exchange rate corresponding to the order is returned, also define how the Time Attribute field (eventtime) is related.
+Define a SQL query for the resultSet table.  Join *Orders* to *ExchangeRates* based on the currency.  To ensure the exchange rate corresponding to the order is returned, also define how the Time Attribute field (eventtime) is related. For more details on dynamic tables and continuous queries see the Apache Flink [documentation](
+https://ci.apache.org/projects/flink/flink-docs-stable/dev/table/streaming/dynamic_tables.html).
+
 ```
 Table resultTable = tableEnv.sqlQuery(""+
         "SELECT o.id, " +
         "  TimestampToString(o.orderTime) orderTime, " +
         "  o.amount originalAmount, " +
         "  (o.amount*r.rate) convertedAmount " +
-        "FROM " +
-        "  Orders o," +
-        "  ExchangeRates r " +
-        "WHERE o.currency = r.currency " +
+        "FROM Orders o " +
+        "LEFT JOIN ExchangeRates r ON " +
+        "      o.currency = r.currency " +
         "  AND o.eventtime >= r.eventtime " +
         "  AND r.eventtime > (o.eventtime - INTERVAL '5' SECOND)"
-    );
+);
 ```
+
+Note: This query is for illustrative purposes and may result in null records on the convertedAmount when the Exchange Rate stream does not have a currency record within the 5 second interval.
 
 ### Output Processing
 Export the results of the query into a Kinesis Stream by leveraging the FlinkKinesisProducer class within the Apache Flink Kinesis Connector.
