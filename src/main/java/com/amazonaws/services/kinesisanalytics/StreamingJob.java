@@ -93,13 +93,12 @@ public class StreamingJob {
                 "  TimestampToString(o.orderTime) orderTime, " +
                 "  o.amount originalAmount, " +
                 "  (o.amount*r.rate) convertedAmount " +
-                "FROM " +
-                "  Orders o," +
-                "  ExchangeRates r " +
-                "WHERE o.currency = r.currency " +
+                "FROM Orders o " +
+                "LEFT JOIN ExchangeRates r ON " +
+                "      o.currency = r.currency " +
                 "  AND o.eventtime >= r.eventtime " +
                 "  AND r.eventtime > (o.eventtime - INTERVAL '5' SECOND)"
-            );
+        );
 
         //Convert the Dynamic Table to a DataStream
         DataStream<Result> resultSet = tableEnv.toAppendStream(resultTable,Result.class);
