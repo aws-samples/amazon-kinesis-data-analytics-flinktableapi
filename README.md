@@ -1,4 +1,10 @@
 # Amazon Kinesis Data Analytics for Java - Leveraging the Apache Flink Table Api
+
+--------
+>  #### 🚨 August 30, 2023: Amazon Kinesis Data Analytics has been renamed to [Amazon Managed Service for Apache Flink](https://aws.amazon.com/managed-service-apache-flink).
+
+--------
+
 This sample project demonstrates how to leverage Kinesis Data Analytics for Java to ingest multiple streams of JSON data, catalog those streams as temporal tables using the Apache Flink Table API and build analytical application which joins these data sets together.
 
 ## Use case overview
