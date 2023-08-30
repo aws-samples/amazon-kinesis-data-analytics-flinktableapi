@@ -5,7 +5,9 @@
 
 --------
 
-🚨 This example refers to an old Apache Flink version  and managed service runtime. For newer examples, refer to then new Blueprints repository and general Amazon Managed Service for Apache Flink examples
+🚨 This example refers to an old Apache Flink version  and managed service runtime. 
+
+For newer examples, refer to then [new Blueprints repository](https://github.com/awslabs/managed-service-for-apache-flink-blueprints/) and general [Amazon Managed Service for Apache Flink examples](https://github.com/aws-samples/amazon-managed-service-for-apache-flink-examples).
 
 --------
 
